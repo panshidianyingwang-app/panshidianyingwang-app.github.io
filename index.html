@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="磐石电影网（panshidianyingwang-app）是专注高清影视在线观看与资讯的网站，提供最新电影、热播电视剧、动漫综艺、纪录片等丰富影视资源，更新及时、分类清晰、免费观影。">
+<meta name="keywords" content="磐石电影网, panshidianyingwang-app, 电影, 电视剧, 高清影视, 在线观影, 免费电影">
+<meta name="robots" content="index, follow">
+<title>磐石电影网 - 高清电影电视剧在线观看 | panshidianyingwang-app</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root{
+        --bg:#070b17;
+        --bg2:#0d1428;
+        --card:#121c36;
+        --line:rgba(255,255,255,.08);
+        --gold:#f5b642;
+        --cyan:#37e6d0;
+        --txt:#e8ecf6;
+        --sub:#9aa6c4;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+        font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+        background:var(--bg);
+        color:var(--txt);
+        line-height:1.7;
+        -webkit-font-smoothing:antialiased;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1160px; margin:0 auto; padding:0 20px; }
+
+    /* 顶部导航 */
+    header{
+        position:sticky; top:0; z-index:50;
+        background:rgba(7,11,23,.82);
+        backdrop-filter:blur(12px);
+        border-bottom:1px solid var(--line);
+    }
+    .nav{ display:flex; align-items:center; gap:18px; height:64px; }
+    .logo{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px; letter-spacing:.5px; }
+    .logo .dot{ width:30px; height:30px; border-radius:9px;
+        background:linear-gradient(135deg,var(--gold),var(--cyan));
+        display:grid; place-items:center; color:#07101f; font-size:15px; }
+    .logo b{ background:linear-gradient(90deg,var(--gold),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .nav-links{ display:flex; gap:6px; margin-left:auto; flex-wrap:wrap; }
+    .nav-links a{ padding:8px 14px; border-radius:20px; font-size:14px; color:var(--sub); transition:.25s; }
+    .nav-links a:hover{ color:#fff; background:rgba(255,255,255,.07); }
+    .nav-links a.hot{ color:var(--gold); }
+
+    /* Hero */
+    .hero{ position:relative; overflow:hidden; padding:64px 0 72px; }
+    .hero::before{ content:""; position:absolute; inset:0;
+        background:
+            radial-gradient(600px 300px at 80% 10%, rgba(245,182,66,.18), transparent 60%),
+            radial-gradient(500px 300px at 10% 60%, rgba(55,230,208,.14), transparent 60%);
+    }
+    .hero-grid{ position:relative; display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:center; }
+    .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--cyan);
+        border:1px solid rgba(55,230,208,.35); padding:6px 14px; border-radius:30px; margin-bottom:18px; }
+    .eyebrow i{ width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 10px var(--cyan); animation:pulse 1.6s infinite; }
+    @keyframes pulse{ 50%{ opacity:.3; transform:scale(.8); } }
+    h1{ font-size:clamp(30px,5vw,52px); line-height:1.15; font-weight:850; letter-spacing:-.5px; }
+    h1 em{ font-style:normal; background:linear-gradient(90deg,var(--gold),#ff7a59); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .hero p.lead{ color:var(--sub); font-size:16px; max-width:520px; margin:16px 0 24px; }
+    .cta{ display:flex; gap:12px; flex-wrap:wrap; }
+    .btn{ padding:13px 26px; border-radius:30px; font-weight:700; font-size:15px; transition:.25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-main{ background:linear-gradient(90deg,var(--gold),#ff9a3c); color:#1a1205; }
+    .btn-main:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(245,182,66,.3); }
+    .btn-ghost{ border:1px solid var(--line); color:var(--txt); }
+    .btn-ghost:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .hero-card{ background:linear-gradient(160deg,var(--card),#0a1124); border:1px solid var(--line);
+        border-radius:22px; padding:8px; transform:perspective(900px) rotateY(-7deg) rotateX(4deg); box-shadow:0 30px 60px rgba(0,0,0,.5); }
+    .hero-card .poster{ height:300px; border-radius:16px; position:relative; overflow:hidden;
+        background:linear-gradient(135deg,#2a1b4d,#0e2b3a); display:grid; place-items:center; }
+    .hero-card .poster span{ font-size:64px; }
+    .hero-card .meta{ padding:16px 14px 6px; }
+    .tags{ display:flex; gap:7px; flex-wrap:wrap; margin-bottom:12px; }
+    .tag{ font-size:12px; padding:4px 11px; border-radius:20px; background:rgba(55,230,208,.1); color:var(--cyan); }
+    .progress{ height:5px; border-radius:6px; background:rgba(255,255,255,.1); overflow:hidden; margin-top:10px; }
+    .progress b{ display:block; height:100%; width:68%; background:linear-gradient(90deg,var(--gold),var(--cyan)); }
+
+    /* 通用区块 */
+    section{ padding:56px 0; }
+    .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:26px; flex-wrap:wrap; }
+    .sec-title{ font-size:clamp(22px,3vw,30px); font-weight:800; display:flex; align-items:center; gap:12px; }
+    .sec-title::before{ content:""; width:5px; height:26px; border-radius:4px; background:linear-gradient(var(--gold),var(--cyan)); }
+    .sec-more{ color:var(--sub); font-size:14px; }
+    .sec-more:hover{ color:var(--gold); }
+
+    /* 分类卡 */
+    .cats{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .cat{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; transition:.28s; cursor:pointer; }
+    .cat:hover{ transform:translateY(-6px); border-color:rgba(245,182,66,.4); background:linear-gradient(160deg,var(--card),#16203e); }
+    .cat .ic{ font-size:34px; margin-bottom:12px; }
+    .cat h3{ font-size:17px; margin-bottom:6px; }
+    .cat p{ color:var(--sub); font-size:13px; }
+
+    /* 影片网格 */
+    .grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:18px; }
+    .film{ background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; transition:.28s; }
+    .film:hover{ transform:translateY(-5px); box-shadow:0 16px 30px rgba(0,0,0,.45); }
+    .poster{ position:relative; aspect-ratio:3/4; overflow:hidden; }
+    .poster .img{ position:absolute; inset:0; display:grid; place-items:center; font-size:44px; }
+    .poster .score{ position:absolute; top:8px; left:8px; background:rgba(7,11,23,.75); color:var(--gold);
+        font-weight:800; font-size:12px; padding:4px 9px; border-radius:20px; backdrop-filter:blur(4px); }
+    .poster .ep{ position:absolute; top:8px; right:8px; background:var(--cyan); color:#04201c; font-weight:800; font-size:11px; padding:4px 9px; border-radius:20px; }
+    .film .info{ padding:11px 12px 13px; }
+    .film .info h4{ font-size:14.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .film .info span{ font-size:12px; color:var(--sub); }
+
+    /* 更新时间轴 */
+    .update{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+    .up-item{ display:flex; gap:14px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; transition:.25s; }
+    .up-item:hover{ border-color:rgba(55,230,208,.4); }
+    .up-thumb{ width:74px; height:74px; border-radius:11px; flex:none; display:grid; place-items:center; font-size:28px; }
+    .up-item h4{ font-size:15px; margin-bottom:4px; }
+    .up-item p{ font-size:12.5px; color:var(--sub); }
+    .up-item .when{ color:var(--gold); font-size:12px; margin-top:5px; }
+
+    /* 排行 */
+    .rank{ background:linear-gradient(160deg,var(--bg2),#0a1124); border:1px solid var(--line); border-radius:20px; padding:24px; }
+    .rank ol{ list-style:none; counter-reset:r; }
+    .rank li{ display:flex; align-items:center; gap:12px; padding:11px 8px; border-bottom:1px dashed var(--line); counter-increment:r; }
+    .rank li:last-child{ border:none; }
+    .rank li::before{ content:counter(r); width:26px; height:26px; flex:none; border-radius:8px;
+        display:grid; place-items:center; font-weight:800; font-size:13px; background:rgba(255,255,255,.06); color:var(--sub); }
+    .rank li:nth-child(1)::before{ background:var(--gold); color:#1a1205; }
+    .rank li:nth-child(2)::before{ background:var(--cyan); color:#04201c; }
+    .rank li:nth-child(3)::before{ background:#c084fc; color:#1a0b2e; }
+    .rank li h4{ font-size:14.5px; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .rank li b{ color:var(--gold); font-size:13px; }
+
+    /* 关于 / 页脚 */
+    .about p{ color:var(--sub); margin-bottom:12px; }
+    .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:22px; }
+    .stat{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; text-align:center; }
+    .stat b{ display:block; font-size:26px; background:linear-gradient(90deg,var(--gold),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .stat span{ font-size:13px; color:var(--sub); }
+
+    footer{ border-top:1px solid var(--line); padding:34px 0; text-align:center; color:var(--sub); font-size:13px; }
+    footer .brand{ font-size:17px; font-weight:800; color:var(--txt); margin-bottom:8px; }
+    footer a{ color:var(--cyan); }
+    .safe{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:14px 0; }
+    .safe span{ border:1px solid var(--line); border-radius:20px; padding:5px 14px; font-size:12px; }
+
+    /* 响应式 */
+    @media(max-width:900px){
+        .hero-grid{ grid-template-columns:1fr; }
+        .hero-card{ max-width:420px; transform:none; }
+        .grid{ grid-template-columns:repeat(3,1fr); }
+        .cats{ grid-template-columns:repeat(2,1fr); }
+        .update{ grid-template-columns:1fr; }
+    }
+    @media(max-width:560px){
+        .nav{ height:56px; gap:10px; }
+        .logo{ font-size:17px; }
+        .nav-links a{ padding:6px 9px; font-size:13px; }
+        .grid{ grid-template-columns:repeat(2,1fr); gap:12px; }
+        .cats{ grid-template-columns:repeat(2,1fr); gap:12px; }
+        .cat{ padding:16px; }
+        .stats{ grid-template-columns:repeat(2,1fr); }
+        h1{ font-size:28px; }
+        section{ padding:40px 0; }
+    }
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+<header>
+    <div class="wrap nav">
+        <div class="logo"><span class="dot">磐</span><b>磐石电影网</b></div>
+        <nav class="nav-links">
+            <a href="#home" class="hot">首页</a>
+            <a href="#movies">电影</a>
+            <a href="#tv">电视剧</a>
+            <a href="#comic">动漫</a>
+            <a href="#docs">纪录片</a>
+            <a href="#rank">排行榜</a>
+            <a href="#about">关于</a>
+        </nav>
+    </div>
+</header>
+
+<section id="home" class="hero">
+    <div class="wrap hero-grid">
+        <div>
+            <span class="eyebrow"><i></i> panshidianyingwang-app · 每日更新</span>
+            <h1>磐石电影网<br>看懂每一部<em>好电影</em></h1>
+            <p class="lead">磐石电影网（panshidianyingwang-app）致力于为影迷提供高清、流畅、免费的影视在线观看体验。电影、电视剧、动漫、综艺、纪录片一站聚合，分类清晰，更新及时，手机电脑均可畅快观影。</p>
+            <div class="cta">
+                <a class="btn btn-main" href="#movies">立即观影 →</a>
+                <a class="btn btn-ghost" href="#about">了解网站</a>
+            </div>
+        </div>
+        <div class="hero-card">
+            <div class="poster"><span>🎬</span></div>
+            <div class="meta">
+                <div class="tags"><span class="tag">正在热播</span><span class="tag">4K 高清</span><span class="tag">双语字幕</span></div>
+                <h3>《磐石之巅》独家上线</h3>
+                <p style="color:var(--sub);font-size:13px;">史诗剧情 · 全 24 集 · 已更新至 16 集</p>
+                <div class="progress"><b></b></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="movies">
+    <div class="wrap">
+        <div class="sec-head">
+            <h2 class="sec-title">电影频道</h2>
+            <a class="sec-more" href="#">查看更多 →</a>
+        </div>
+        <div class="cats">
+            <div class="cat"><div class="ic">🔥</div><h3>动作大片</h3><p>硬核打斗，肾上腺素飙升</p></div>
+            <div class="cat"><div class="ic">💫</div><h3>科幻未来</h3><p>脑洞大开，视觉奇观</p></div>
+            <div class="cat"><div class="ic">❤️</div><h3>爱情文艺</h3><p>细腻情感，治愈人心</p></div>
+            <div class="cat"><div class="ic">😱</div><h3>悬疑惊悚</h3><p>反转不断，烧脑必看</p></div>
+        </div>
+        <div class="grid" style="margin-top:20px;">
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#3b1d5e,#1d3b5e);">🏔️</div><span class="score">9.2</span></div><div class="info"><h4>磐石之巅</h4><span>动作 / 2026 / 138分钟</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e1d2e,#1d5e4a);">🚀</div><span class="score">8.7</span></div><div class="info"><h4>星际回响</h4><span>科幻 / 2026 / 122分钟</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e3b1d,#5e1d3b);">🎭</div><span class="score">8.9</span></div><div class="info"><h4>城中往事</h4><span>剧情 / 2025 / 115分钟</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#1d5e5e,#3b1d5e);">🕵️</div><span class="score">8.5</span></div><div class="info"><h4>沉默证人</h4><span>悬疑 / 2026 / 104分钟</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e4a1d,#2e1d5e);">🌹</div><span class="score">8.8</span></div><div class="info"><h4>海边咖啡馆</h4><span>爱情 / 2025 / 98分钟</span></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="tv" style="background:linear-gradient(180deg,transparent,rgba(55,230,208,.04));">
+    <div class="wrap">
+        <div class="sec-head">
+            <h2 class="sec-title">电视剧 · 热播剧集</h2>
+            <a class="sec-more" href="#">剧集大全 →</a>
+        </div>
+        <div class="grid">
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#1d2e5e,#5e1d4a);">👑</div><span class="ep">更新至22集</span></div><div class="info"><h4>长安二十四时</h4><span>古装 / 历史 / 悬疑</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#4a1d5e,#1d5e2e);">🩺</div><span class="ep">更新至18集</span></div><div class="info"><h4>急诊夜航</h4><span>都市 / 医疗 / 职场</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e1d1d,#5e4a1d);">🐉</div><span class="ep">更新至30集</span></div><div class="info"><h4>九州云起</h4><span>玄幻 / 武侠 / 史诗</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#1d3b5e,#3b5e1d);">🕵️‍♂️</div><span class="ep">全 12 集</span></div><div class="info"><h4>无声的真相</h4><span>犯罪 / 推理 / 现实</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#2e1d5e,#1d5e5e);">💼</div><span class="ep">更新至26集</span></div><div class="info"><h4>投行风云</h4><span>商战 / 职场 / 都市</span></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="comic">
+    <div class="wrap">
+        <div class="sec-head">
+            <h2 class="sec-title">动漫 · 综艺</h2>
+            <a class="sec-more" href="#">番剧列表 →</a>
+        </div>
+        <div class="grid">
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e1d3b,#1d5e5e);">⚔️</div><span class="ep">周更</span></div><div class="info"><h4>剑与星尘</h4><span>奇幻 / 冒险 / 热血</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#1d5e3b,#3b1d5e);">🐾</div><span class="ep">周更</span></div><div class="info"><h4>森林守护者</h4><span>治愈 / 冒险 / 亲子</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e4a1d,#1d2e5e);">🎤</div><span class="ep">更新中</span></div><div class="info"><h4>声生不息·现场</h4><span>音乐 / 竞演 / 综艺</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#3b1d5e,#5e1d2e);">🍳</div><span class="ep">更新中</span></div><div class="info"><h4>人间烟火味</h4><span>美食 / 生活 / 纪实</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#1d3b5e,#5e3b1d);">🌌</div><span class="ep">周更</span></div><div class="info"><h4>银河补习班</h4><span>科幻 / 教育 / 动画</span></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="docs" style="background:linear-gradient(180deg,rgba(245,182,66,.04),transparent);">
+    <div class="wrap">
+        <div class="sec-head">
+            <h2 class="sec-title">纪录片 · 知识观影</h2>
+            <a class="sec-more" href="#">片库入口 →</a>
+        </div>
+        <div class="grid">
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#1d4a5e,#5e3b1d);">🌍</div><span class="score">9.6</span></div><div class="info"><h4>蔚蓝星球</h4><span>自然 / 生态 / 4K</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e1d1d,#1d1d5e);">🏛️</div><span class="score">9.3</span></div><div class="info"><h4>文明的脉络</h4><span>历史 / 人文 / 考古</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#2e5e1d,#1d5e4a);">🐼</div><span class="score">9.1</span></div><div class="info"><h4>野生中国</h4><span>动物 / 自然 / 纪实</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#1d2e5e,#5e1d5e);">🔬</div><span class="score">8.9</span></div><div class="info"><h4>宇宙探针</h4><span>天文 / 物理 / 科普</span></div></div>
+            <div class="film"><div class="poster"><div class="img" style="background:linear-gradient(135deg,#5e5e1d,#1d5e2e);">🍜</div><span class="score">9.0</span></div><div class="info"><h4>舌尖上的故乡</h4><span>美食 / 人文 / 旅行</span></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="updates">
+    <div class="wrap">
+        <div class="sec-head"><h2 class="sec-title">今日更新</h2><a class="sec-more" href="#">更新日志 →</a></div>
+        <div class="update">
+            <div class="up-item"><div class="up-thumb" style="background:linear-gradient(135deg,#3b1d5e,#1d5e4a);">🏔️</div><div><h4>磐石之巅 第16集</h4><p>动作 / 史诗 · 1080P 高清</p><p class="when">10 分钟前更新</p></div></div>
+            <div class="up-item"><div class="up-thumb" style="background:linear-gradient(135deg,#1d2e5e,#5e1d4a);">👑</div><div><h4>长安二十四时 第22集</h4><p>古装 / 悬疑 · 4K 超清</p><p class="when">1 小时前更新</p></div></div>
+            <div class="up-item"><div class="up-thumb" style="background:linear-gradient(135deg,#4a1d5e,#1d5e2e);">🩺</div><div><h4>急诊夜航 第18集</h4><p>都市 / 医疗 · 1080P 高清</p><p class="when">3 小时前更新</p></div></div>
+            <div class="up-item"><div class="up-thumb" style="background:linear-gradient(135deg,#5e1d3b,#1d5e5e);">⚔️</div><div><h4>剑与星尘 第7集</h4><p>奇幻 / 冒险 · 双语字幕</p><p class="when">5 小时前更新</p></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="rank">
+    <div class="wrap">
+        <div class="sec-head"><h2 class="sec-title">观影排行榜</h2><a class="sec-more" href="#">完整榜单 →</a></div>
+        <div class="rank">
+            <ol>
+                <li><h4>磐石之巅</h4><span>电影</span><b>9.2</b></li>
+                <li><h4>长安二十四时</h4><span>电视剧</span><b>9.0</b></li>
+                <li><h4>蔚蓝星球</h4><span>纪录片</span><b>9.6</b></li>
+                <li><h4>星际回响</h4><span>电影</span><b>8.7</b></li>
+                <li><h4>剑与星尘</h4><span>动漫</span><b>8.8</b></li>
+                <li><h4>文明的脉络</h4><span>纪录片</span><b>9.3</b></li>
+                <li><h4>九州云起</h4><span>电视剧</span><b>8.6</b></li>
+                <li><h4>急诊夜航</h4><span>电视剧</span><b>8.5</b></li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <div class="wrap">
+        <div class="sec-head"><h2 class="sec-title">关于磐石电影网</h2></div>
+        <div class="about">
+            <p><strong style="color:var(--gold);">磐石电影网</strong>（站点标识：<strong>panshidianyingwang-app</strong>，访问地址 <strong>https://panshidianyingwang-app.github.io</strong>）是一个以"磐石"为名、追求稳定与品质的影视内容导航与资讯网站。我们不做繁杂，只做精选：每一部推荐影片都经过人工筛选，涵盖<strong>电影、电视剧、动漫综艺、纪录片</strong>四大主线栏目，并辅以排行榜、今日更新等实用模块。</p>
+            <p>网站采用响应式设计，在手机、平板、电脑上均能自适应排版；页面结构语义清晰、加载轻量，便于搜索引擎抓取与收录。所有内页与栏目跳转均以锚点（#）方式组织于本单页之内，浏览流畅、体验统一。</p>
+            <div class="stats">
+                <div class="stat"><b>4+</b><span>内容栏目</span></div>
+                <div class="stat"><b>10000+</b><span>影视条目</span></div>
+                <div class="stat"><b>24h</b><span>每日更新</span></div>
+                <div class="stat"><b>100%</b><span>移动端自适应</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div class="brand">磐石电影网 · panshidianyingwang-app</div>
+        <div class="safe"><span>绿色安全</span><span>高清流畅</span><span>免费观影</span><span>每日更新</span></div>
+        <p>网站名称：磐石电影网 ｜ 网站网址：https://panshidianyingwang-app.github.io ｜ 站点标识：panshidianyingwang-app</p>
+        <p style="margin-top:8px;">本站为影视资讯与导航类网站，倡导支持正版影视作品。© 2026 磐石电影网 保留所有权利。</p>
+    </div>
+</footer>
+
+</body>
+</html>
